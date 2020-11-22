@@ -6,7 +6,7 @@
     <view style="width: 100%; margin-top: 100px;">
       <AtButton
         type="primary"
-        :on-click="toHome"
+        :on-click="toActivity"
         style="margin: 12px;"
       >
         进入首页
@@ -25,6 +25,7 @@
 
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
+import Taro from '@tarojs/taro';
 
 @Component({
   name: 'Welcome'
@@ -33,8 +34,10 @@ export default class Welcome extends Vue{
 
   imgUrl: string = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605983591981&di=b075a1308a8228ac2e016f0b04c44e63&imgtype=0&src=http%3A%2F%2Fp6.itc.cn%2Fmpbp%2Fpro%2F20200927%2Ffc5dd7d801304fdb83b9f37c07ae97ae.jpeg"
 
-  toHome() {
-
+  toActivity() {
+    Taro.switchTab({
+      url: '/pages/activity/activity'
+    })
   }
 
   toExit() {

@@ -1,21 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="431a8b06-bd4b-4a98-a0a1-32c9afccd644" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/activity.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/activity_selected.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/mine.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/mine_selected.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/sign.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/sign_selected.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/base/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/team.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/user.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sitemap.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/scssLintPlugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/scssLintPlugin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/index.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/register/register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/register/register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/welcome/welcome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/welcome/welcome.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -31,16 +56,25 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.stylelint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
     <property name="node.js.path.for.package.stylelint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
     <property name="node.js.selected.package.stylelint" value="$PROJECT_DIR$/node_modules/stylelint" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -50,33 +84,44 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1605968814763</updated>
-      <workItem from="1605968818412" duration="5445000" />
+      <workItem from="1605968818412" duration="21703000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state x="416" y="313" key="#SCSS_Lint" timestamp="1605969198053">
+    <state x="583" y="349" width="598" height="330" key="#ESLint" timestamp="1606055919691">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="416" y="313" key="#SCSS_Lint/0.0.1440.900@0.0.1440.900" timestamp="1605969198053" />
+    <state x="583" y="349" width="598" height="330" key="#ESLint/0.0.1440.900@0.0.1440.900" timestamp="1606055919691" />
+    <state x="416" y="313" key="#SCSS_Lint" timestamp="1606055994179">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="416" y="313" key="#SCSS_Lint/0.0.1440.900@0.0.1440.900" timestamp="1606055994179" />
     <state x="417" y="346" key="#Stylelint" timestamp="1605969084782">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="417" y="346" key="#Stylelint/0.0.1440.900@0.0.1440.900" timestamp="1605969084782" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/pages/welcome/welcome.vue</url>
-          <line>42</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="229" y="89" key="SettingsEditor" timestamp="1606055951460">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="229" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1606055951460" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1606039922389">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1606039922389" />
   </component>
 </project>

@@ -1,18 +1,26 @@
 import Vue from 'vue';
 import store from './store';
-
+import TaroUiVue from 'taro-ui-vue'
+import 'taro-ui-vue/dist/style/index.scss'
 import './app.scss';
 
-import TaroUiVue from 'taro-ui-vue/src'
-import 'taro-ui-vue/dist/style/index.scss'
-Vue.use(TaroUiVue)
+
 
 // Vue.config.productionTip = false
+Vue.use(TaroUiVue)
+
+
 
 const App = new Vue({
   store,
-  onShow (options) {
-    console.log('进入小程序');
+  created() {
+    console.log('created');
+  },
+  mounted() {
+    console.log('mounted');
+  },
+  destroyed() {
+    console.log('destroyed');
   },
   render(h) {
     // this.$slots.default 是将要会渲染的页面
