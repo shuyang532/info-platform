@@ -51,7 +51,9 @@
 
       <view v-for="activity in activities" style="width: 90%; height: 200px; border-radius: 6px; box-shadow: 8px 8px 12px #cccccc; position: relative; display: flex; align-items: center; justify-content: flex-end; margin: 16px 0;">
         <image :src="activity.coverUrl" mode="scaleToFill" style="width: 100%; height: 100%; border-radius: 6px; position: absolute;"></image>
-        <AtIcon value="chevron-right" size="32" style="background-color: #6190E8; color: white; padding: 4px; border-radius: 50%; position: absolute; z-index: 99;"></AtIcon>
+        <view style="position: absolute; z-index: 99; padding-right: 16px;" @tap="onViewDetail(activity)">
+          <AtIcon value="chevron-right" size="32" style="background-color: #6190E8; color: white; padding: 4px; border-radius: 50%;"></AtIcon>
+        </view>
       </view>
 
     </view>
@@ -63,6 +65,7 @@
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
+import {APP_ROUTES} from "../../base/constant";
 
 @Component({
   name: 'Activity',
@@ -136,8 +139,6 @@ export default class Activity extends Vue {
   ]
 
 
-
-
   handleInputSearch(val: string) {
     this.searchTerm = val;
   }
@@ -152,6 +153,14 @@ export default class Activity extends Vue {
 
   onActionClick() {
     console.log('点击了搜索按钮')
+  }
+
+  onViewDetail(activity: any) {
+    console.log("点击进入详情页");
+    console.log(activity);
+    Taro.navigateTo({
+      url: APP_ROUTES.DETAIL
+    })
   }
 }
 </script>

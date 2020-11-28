@@ -21,7 +21,7 @@
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
 import API from "../../base/api";
-import APP_ROUTES from "../../base/constant";
+import {APP_ROUTES} from "../../base/constant";
 
 @Component({
   name: 'Index'
@@ -41,13 +41,18 @@ export default class Index extends Vue {
             },
           }).then((loginRes: any) => {
             console.log(loginRes);
-            if (loginRes.data.success) {
+
+            /*if (loginRes.data.success) {
               console.log('登录成功');
               _this.toWelcome();
             } else {
               console.log('登录失败');
               _this.toRegister();
-            }
+            }*/
+
+            _this.toWelcome();
+
+
           });
         }
       }

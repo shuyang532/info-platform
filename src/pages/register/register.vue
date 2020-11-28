@@ -83,7 +83,7 @@
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
-import APP_ROUTES from "../../base/constant";
+import {APP_ROUTES} from "../../base/constant";
 
 @Component({
   name: "Register"

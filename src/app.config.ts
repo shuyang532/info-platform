@@ -4,6 +4,7 @@ export default {
     'pages/welcome/welcome',
     'pages/register/register',
     'pages/activity/activity',
+    'pages/detail/detail',
     'pages/sign/sign',
     'pages/mine/mine'
   ],
