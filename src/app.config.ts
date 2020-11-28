@@ -1,6 +1,9 @@
+const APP_ROUTES = require('./base/constant');
+
 export default {
   pages: [
-    'pages/index/index',
+    APP_ROUTES.INDEX,
+    // 'pages/index/index',
     'pages/welcome/welcome',
     'pages/register/register',
     'pages/activity/activity',

@@ -38,7 +38,7 @@
             :value="verificationCode"
             :on-change="handleInputCode"
           >
-            <AtButton size="small" style="font-size: 12px; border: none; padding: 0; margin-left: 8px;">发送验证码</AtButton>
+            <AtButton size="small" style="font-size: 12px; border: none; padding: 0; margin-left: 8px;" :on-click="sentVerificationCode">发送验证码</AtButton>
           </AtInput>
         </view>
 
@@ -86,9 +86,10 @@ export default class Register extends Vue {
 
   mounted() {
     const _this = this;
-    wx.getSetting({
-      success (res) {
+    Taro.getSetting({
+      success: (res: any) => {
         if (!res.authSetting["scope.userInfo"]) {
+          console.log('dd');
           _this.openAuthorize = true;
         }
       }
@@ -97,10 +98,6 @@ export default class Register extends Vue {
 
   onRegister() {
     console.log('注册');
-    this.toWelcome();
-  }
-
-  toWelcome() {
     Taro.redirectTo({
       url: '/pages/welcome/welcome'
     })
@@ -121,6 +118,10 @@ export default class Register extends Vue {
 
   handleInputCode(val: string) {
     this.verificationCode = val;
+  }
+
+  sentVerificationCode() {
+    console.log('发送验证码')
   }
 
 }

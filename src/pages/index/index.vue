@@ -29,7 +29,7 @@ export default class Index extends Vue {
 
   mounted() {
     const _this = this;
-    wx.login({
+    Taro.login({
       success: (res: any) => {
         if (res.code) {
           Taro.request({
@@ -38,15 +38,14 @@ export default class Index extends Vue {
             data: {
               code: res.code
             },
-            success: (loginRes: any) => {
-              // console.log(loginRes);
-              if (loginRes.data.success) {
-                console.log('登录成功');
-                _this.toWelcome();
-              } else {
-                console.log('登录失败');
-                _this.toRegister();
-              }
+          }).then((loginRes: any) => {
+            console.log(loginRes);
+            if (loginRes.data.success) {
+              console.log('登录成功');
+              _this.toWelcome();
+            } else {
+              console.log('登录失败');
+              _this.toRegister();
             }
           });
         }
