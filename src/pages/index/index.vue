@@ -21,6 +21,7 @@
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
 import API from "../../base/api";
+import APP_ROUTES from "../../base/constant";
 
 @Component({
   name: 'Index'
@@ -55,13 +56,13 @@ export default class Index extends Vue {
 
   toWelcome() {
     Taro.navigateTo({
-      url: '/pages/welcome/welcome'
+      url: APP_ROUTES.WELCOME
     })
   }
 
   toRegister() {
     Taro.navigateTo({
-      url: '/pages/register/register'
+      url: APP_ROUTES.REGISTER
     })
   }
 

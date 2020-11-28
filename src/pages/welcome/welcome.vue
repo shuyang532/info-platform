@@ -26,6 +26,7 @@
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
+import APP_ROUTES from "../../base/constant";
 
 @Component({
   name: 'Welcome'
@@ -36,7 +37,7 @@ export default class Welcome extends Vue{
 
   toActivity() {
     Taro.switchTab({
-      url: '/pages/activity/activity'
+      url: APP_ROUTES.ACTIVITY
     })
   }
 

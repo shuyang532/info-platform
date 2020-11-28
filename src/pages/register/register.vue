@@ -32,13 +32,18 @@
             type="text"
             clear
             :border="false"
-            placeholder="点击发送验证码"
+            :placeholder="verificationCodeHint"
             placeholder-style="font-size: 12px;"
             style="margin: 0; padding: 8px 16px; background-color: #f7f7f7;"
             :value="verificationCode"
             :on-change="handleInputCode"
           >
-            <AtButton size="small" style="font-size: 12px; border: none; padding: 0; margin-left: 8px;" :on-click="sentVerificationCode">发送验证码</AtButton>
+            <AtButton size="small" style="font-size: 12px; border: none; padding: 0; margin-left: 8px;"
+                      :on-click="sentVerificationCode" v-if="remainedTime<=0">发送验证码
+            </AtButton>
+            <view style="font-size: 12px; margin-left: 8px; display: flex; align-items: center; color: #E93B3D; height: 60rpx;" v-else>
+              {{ remainedTime }}s后重发
+            </view>
           </AtInput>
         </view>
 
@@ -57,12 +62,16 @@
       <AtActionSheetItem style="display: flex; flex-direction: column; align-items: center; padding: 32px 0;">
 
         <AtAvatar circle :open-data="{type: 'userAvatarUrl'}" style="width: 72px; height: 72px;"></AtAvatar>
-        <view style="margin-top: 24px; font-size: 16px;"><open-data type="userNickName"></open-data></view>
+        <view style="margin-top: 24px; font-size: 16px;">
+          <open-data type="userNickName"></open-data>
+        </view>
 
       </AtActionSheetItem>
 
       <AtActionSheetItem>
-        <AtButton type="secondary" open-type="getUserInfo" :on-get-user-info="bindGetUserInfo" style="border: none;">微信授权</AtButton>
+        <AtButton type="secondary" open-type="getUserInfo" :on-get-user-info="bindGetUserInfo" style="border: none;">
+          微信授权
+        </AtButton>
       </AtActionSheetItem>
 
 
@@ -74,6 +83,7 @@
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
+import APP_ROUTES from "../../base/constant";
 
 @Component({
   name: "Register"
@@ -83,6 +93,9 @@ export default class Register extends Vue {
   studentNumber: string = '';
   verificationCode: string = '';
   openAuthorize: boolean = false;
+
+  verificationCodeHint: string = '点击发送验证码'
+  remainedTime: number = 0;
 
   mounted() {
     const _this = this;
@@ -99,7 +112,7 @@ export default class Register extends Vue {
   onRegister() {
     console.log('注册');
     Taro.redirectTo({
-      url: '/pages/welcome/welcome'
+      url: APP_ROUTES.WELCOME
     })
   }
 
@@ -122,6 +135,21 @@ export default class Register extends Vue {
 
   sentVerificationCode() {
     console.log('发送验证码')
+    this.verificationCodeHint = "已发送至学邮";
+    this.remainedTime = 60;
+    this.countdownTime();
+    console.log('结束倒计时')
+  }
+
+  countdownTime() {
+    if (this.remainedTime <= 0) {
+      this.verificationCodeHint = "点击发送验证码";
+    } else {
+      this.remainedTime--;
+      setTimeout(() => {
+        this.countdownTime();
+      }, 1000);
+    }
   }
 
 }
