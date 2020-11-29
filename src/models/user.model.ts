@@ -1,6 +1,6 @@
-import {Team} from "./team";
+import {TeamModel} from "./team.model";
 
-export class User {
+export class UserModel {
 
   id: string = '';
   nickname: string = '';
@@ -11,7 +11,7 @@ export class User {
   break: number = 0;
 
   teamAdmin: boolean = true;
-  teams: Team[] = [];
+  teams: TeamModel[] = [];
 
   constructor() {
   }
@@ -25,7 +25,7 @@ export class User {
     this.break = u.break;
     this.teamAdmin = u.teamAdmin;
     for (const t of u.teams){
-      const team = new Team();
+      const team = new TeamModel();
       team.engrave(t);
       this.teams.push(team);
     }

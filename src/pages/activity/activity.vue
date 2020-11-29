@@ -66,6 +66,7 @@
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
 import {APP_ROUTES} from "../../base/constant";
+import {ActivityModel} from "../../models/activity.model";
 
 @Component({
   name: 'Activity',
@@ -123,20 +124,15 @@ export default class Activity extends Vue {
     }
   ]
 
-  activities: any[] = [
-    {
-      coverUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605983591981&di=b075a1308a8228ac2e016f0b04c44e63&imgtype=0&src=http%3A%2F%2Fp6.itc.cn%2Fmpbp%2Fpro%2F20200927%2Ffc5dd7d801304fdb83b9f37c07ae97ae.jpeg"
-    },
-    {
-      coverUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605983591981&di=b075a1308a8228ac2e016f0b04c44e63&imgtype=0&src=http%3A%2F%2Fp6.itc.cn%2Fmpbp%2Fpro%2F20200927%2Ffc5dd7d801304fdb83b9f37c07ae97ae.jpeg"
-    },
-    {
-      coverUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605983591981&di=b075a1308a8228ac2e016f0b04c44e63&imgtype=0&src=http%3A%2F%2Fp6.itc.cn%2Fmpbp%2Fpro%2F20200927%2Ffc5dd7d801304fdb83b9f37c07ae97ae.jpeg"
-    },
-    {
-      coverUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605983591981&di=b075a1308a8228ac2e016f0b04c44e63&imgtype=0&src=http%3A%2F%2Fp6.itc.cn%2Fmpbp%2Fpro%2F20200927%2Ffc5dd7d801304fdb83b9f37c07ae97ae.jpeg"
+  activities: ActivityModel[] = []
+
+  mounted() {
+    const am = new ActivityModel();
+    am.mock();
+    for(let i = 0; i<=9; i++) {
+      this.activities.push(am);
     }
-  ]
+  }
 
 
   handleInputSearch(val: string) {
@@ -159,7 +155,7 @@ export default class Activity extends Vue {
     console.log("点击进入详情页");
     console.log(activity);
     Taro.navigateTo({
-      url: APP_ROUTES.DETAIL
+      url: APP_ROUTES.DETAIL+'?id='+activity.id
     })
   }
 }

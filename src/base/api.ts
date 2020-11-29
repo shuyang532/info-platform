@@ -7,7 +7,11 @@ const API = {
 
   sentVerificationCode(): string {
     return `${this.baseURL}data/user/validate-code`;
-  }
+  },
+
+  getActivityDetail(): string {
+    return `${this.baseURL}data/activity`;
+  },
 }
 
 export default API

@@ -1,30 +1,32 @@
 <template>
-  <view class="index">
-    <NumberDisplay/>
-    <NumberSubmit/>
+  <view class="container">
+
+
+
   </view>
 </template>
 
-<script>
-import NumberDisplay from '../../components/NumberDisplay.vue'
-import NumberSubmit from '../../components/NumberSubmit.vue'
+<script lang="ts">
+import {Vue, Component} from 'vue-property-decorator';
+import Taro from '@tarojs/taro';
+import {APP_ROUTES} from "../../base/constant";
 
-export default {
-  name: 'Index',
-  components: {
-    NumberDisplay,
-    NumberSubmit
-  }
+@Component({
+  name: 'Mine'
+})
+export default class Mine extends Vue{
+
 }
+
 </script>
 
 <style>
-.index {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+.container {
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 </style>

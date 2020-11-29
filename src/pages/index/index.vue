@@ -38,7 +38,7 @@ export default class Index extends Vue {
             method: "GET",
             data: {
               code: res.code
-            },
+            }
           }).then((loginRes: any) => {
             console.log(loginRes);
 
