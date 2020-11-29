@@ -1,1 +1,1 @@
-# my-taro
+# info-platform
