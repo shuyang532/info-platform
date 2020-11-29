@@ -5,7 +5,10 @@ export const APP_ROUTES = {
   ACTIVITY: '/pages/activity/activity',
   DETAIL: '/pages/detail/detail',
   SIGN: '/pages/sign/sign',
-  MINE: '/pages/mine/mine'
+  MINE: '/pages/mine/mine',
+  SPACE: '/pages/space/space',
+  JOIN: '/pages/join/join',
+  FEEDBACK: '/pages/feedback/feedback'
 }
 
 export const ACTIVITY_STATUS = {

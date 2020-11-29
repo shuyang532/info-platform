@@ -6,7 +6,10 @@ export default {
     'pages/activity/activity',
     'pages/detail/detail',
     'pages/sign/sign',
-    'pages/mine/mine'
+    'pages/mine/mine',
+    'pages/space/space',
+    'pages/join/join',
+    'pages/feedback/feedback'
   ],
   tabBar: {
     list: [

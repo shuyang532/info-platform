@@ -125,6 +125,20 @@ export default class Activity extends Vue {
   ];
 
   activities: ActivityModel[] = [];
+  userId: string = '';
+
+  created() {
+    if (Taro.getCurrentInstance().router.params.id) {
+      this.userId= Taro.getCurrentInstance().router.params.id;
+      Taro.setStorageSync({
+        key: 'userId',
+        value: this.userId
+      });
+    } else {
+      this.userId = Taro.getStorageSync({key: 'userId'});
+    }
+    console.log(this.userId);
+  }
 
   mounted() {
     const am = new ActivityModel();
