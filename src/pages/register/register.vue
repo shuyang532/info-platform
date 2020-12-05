@@ -1,55 +1,45 @@
 <template>
-  <view style="background-color: #f8f8f8; min-height: 100%; position: fixed;">
+  <view class="tf-register-container">
     <AtNoticebar>学号与微信绑定后不可更改，请确认是本人学号和微信。</AtNoticebar>
-    <view style="padding: 16px 24px;">
+    <view class="tf-register-main-part">
 
-      <view style="background-color: white; padding: 80px 24px;">
+      <view class="tf-register-card">
 
-        <view>
-          <view style="color: #6190E8; font-size: 24px">注册</view>
-          <view style="background-color: #6190E8; height: 2px; width: 64px; margin: 12px 0;"></view>
-        </view>
+        <view class="tf-register-card-title-text">注册</view>
+        <view class="tf-register-card-title-tab"></view>
 
-        <view style="margin: 80px 0 24px;">
-          <AtInput
-            name="number"
-            title="学号"
-            type="text"
-            clear
-            :border="false"
-            placeholder="请输入学号"
-            placeholder-style="font-size: 12px;"
-            style="margin: 0; padding: 8px 16px; background-color: #f7f7f7;"
-            :value="studentNumber"
-            :on-change="handleInputNumber"
-          />
-        </view>
+        <AtInput
+          name="number"
+          title="学号"
+          type="text"
+          clear
+          :border="false"
+          placeholder="请输入学号"
+          placeholder-style="font-size: 12px;"
+          class="tf-register-first-input"
+          :value="studentNumber"
+          :on-change="handleInputNumber"
+        />
 
-        <view style="margin: 24px 0;">
-          <AtInput
-            name="code"
-            title="验证码"
-            type="text"
-            clear
-            :border="false"
-            :placeholder="verificationCodeHint"
-            placeholder-style="font-size: 12px;"
-            style="margin: 0; padding: 8px 16px; background-color: #f7f7f7;"
-            :value="verificationCode"
-            :on-change="handleInputCode"
-          >
-            <AtButton size="small" style="font-size: 12px; border: none; padding: 0; margin-left: 8px;"
-                      :on-click="sentVerificationCode" v-if="remainedTime<=0">发送验证码
-            </AtButton>
-            <view style="font-size: 12px; margin-left: 8px; display: flex; align-items: center; color: #E93B3D; height: 60rpx;" v-else>
-              {{ remainedTime }}s后重发
-            </view>
-          </AtInput>
-        </view>
+        <AtInput
+          name="code"
+          title="验证码"
+          type="text"
+          clear
+          :border="false"
+          :placeholder="verificationCodeHint"
+          placeholder-style="font-size: 12px;"
+          class="tf-register-first-input"
+          :value="verificationCode"
+          :on-change="handleInputCode"
+        >
+          <AtButton size="small" class="tf-register-code-button" :on-click="sentVerificationCode" v-if="remainedTime<=0">发送验证码</AtButton>
+          <view class="tf-register-code-text" v-else>{{ remainedTime }}s后重发</view>
+        </AtInput>
 
       </view>
 
-      <AtButton type="primary" style="margin-top: 24px;" :on-click="onRegister">创建账户</AtButton>
+      <AtButton type="primary" :on-click="onRegister">创建账户</AtButton>
 
     </view>
 
@@ -59,10 +49,10 @@
       :on-cancel="handleCancel"
     >
 
-      <AtActionSheetItem style="display: flex; flex-direction: column; align-items: center; padding: 32px 0;">
+      <AtActionSheetItem class="tf-register-action-first-item">
 
-        <AtAvatar circle :open-data="{type: 'userAvatarUrl'}" style="width: 72px; height: 72px;"></AtAvatar>
-        <view style="margin-top: 24px; font-size: 16px;">
+        <AtAvatar circle :open-data="{type: 'userAvatarUrl'}" class="tf-register-action-avatar"></AtAvatar>
+        <view class="tf-register-action-nickname">
           <open-data type="userNickName"></open-data>
         </view>
 
@@ -155,8 +145,79 @@ export default class Register extends Vue {
 }
 </script>
 
-<style>
+<style lang="scss">
+$tf-color-bg-grey: #f5f5f5;
+$tf-color-bg-white: #ffffff;
+$tf-color-primary: #6190E8;
+$tf-color-warning: #E93B3D;
 
+.tf-register-container {
+  height: 100%;
+  background-color: $tf-color-bg-grey;
+}
+
+.tf-register-main-part {
+  padding: 32px 48px;
+
+  .tf-register-card {
+    background-color: $tf-color-bg-white;
+    padding: 80px 24px;
+    margin-bottom: 48px;
+
+    .tf-register-card-title-text {
+      color: $tf-color-primary;
+      font-size: 48px
+    }
+
+    .tf-register-card-title-tab {
+      background-color: $tf-color-primary;
+      height: 4px;
+      width: 128px;
+      margin: 24px 0 200px;
+    }
+
+    .tf-register-first-input {
+      margin: 48px 0;
+      padding: 16px 32px;
+      background-color: $tf-color-bg-grey;
+
+      .tf-register-code-button {
+        font-size: 24px;
+        margin-left: 16px;
+        border: none;
+        padding: 0;
+      }
+
+      .tf-register-code-text {
+        font-size: 24px;
+        margin-left: 16px;
+        display: flex;
+        align-items: center;
+        color: $tf-color-warning !important;
+      }
+    }
+  }
+}
+
+.tf-register-action-first-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px 0;
+
+  .tf-register-action-avatar {
+    width: 144px;
+    height: 144px;
+  }
+
+  .tf-register-action-nickname {
+    margin-top: 48px;
+    font-size: 32px;
+  }
+}
+
+
+// at style
 .at-input__title {
   font-size: 24px;
   width: 102px;

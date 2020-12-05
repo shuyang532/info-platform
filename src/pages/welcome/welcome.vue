@@ -1,21 +1,13 @@
 <template>
-  <view class="container">
+  <view class="tf-welcome-container">
 
-    <image :src="imgUrl" mode="scaleToFill"></image>
+    <image :src="imgUrl" mode="scaleToFill" class="tf-welcome-image"></image>
 
-    <view style="width: 100%; margin-top: 100px;">
-      <AtButton
-        type="primary"
-        :on-click="toActivity"
-        style="margin: 12px;"
-      >
+    <view class="tf-welcome-button-part">
+      <AtButton type="primary" :on-click="toActivity" class="tf-welcome-button">
         进入首页
       </AtButton>
-      <AtButton
-        type="secondary"
-        :on-click="toExit"
-        style="margin: 12px;"
-      >
+      <AtButton type="secondary" :on-click="toExit" class="tf-welcome-button">
         退出小程序
       </AtButton>
     </view>
@@ -48,13 +40,26 @@ export default class Welcome extends Vue{
 
 </script>
 
-<style>
-
-.container {
-  padding: 80px 24px;
+<style lang="scss">
+.tf-welcome-container {
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
+}
+
+.tf-welcome-image {
+  width: 90%;
+  height: 480px;
+}
+
+.tf-welcome-button-part {
+  width: 90%;
+
+  .tf-welcome-button {
+    margin: 24px 0;
+  }
 }
 
 </style>
