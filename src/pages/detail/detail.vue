@@ -78,7 +78,7 @@
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
 import {ActivityModel} from "../../models/activity.model";
-import API from "../../base/api";
+import { getActivity } from "../../base/servers/servers";
 
 @Component({
   name: 'Detail',
@@ -110,13 +110,7 @@ export default class Detail extends Vue {
   }
 
   getActivityDetail() {
-    Taro.request({
-      url: API.getActivityDetail(),
-      method: 'GET',
-      data: {
-        activityId: this.activityId
-      }
-    }).then((res: any) => {
+    getActivity(0, 1, this.activityId).then((res: any) => {
       if (res.success) {
         this.activity.engrave(res.data);
       }
