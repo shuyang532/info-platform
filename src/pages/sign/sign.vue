@@ -1,10 +1,10 @@
 <template>
-  <view style="position: relative; height: 100%; background-color: #F0FFFF; display: flex; justify-content: center; align-items: center;">
+  <view class="tf-sign-container">
 
-    <view style="width: 300px; min-height: 320px; background-color: white; border-radius: 4px; box-shadow: 4px 4px 8px #f7f7f7; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-      <image src="../../assets/sign_container.png" mode="scaleToFill" style="width: 180px; height: 180px;"></image>
+    <view class="tf-sign-code-image">
+      <image src="../../assets/images/sign_container.png" mode="scaleToFill" class="tf-sign-code-outer-size"></image>
       <view style="margin-top: 32px;" @tap="onRefreshQR">
-        <image src="../../assets/refresh.png" mode="scaleToFill" style="width: 48px; height: 48px;"></image>
+        <image src="../../assets/images/refresh.png" mode="scaleToFill" class="tf-sign-code-inner-size"></image>
       </view>
     </view>
 
@@ -26,6 +26,39 @@ export default class Sign extends Vue{
 
 </script>
 
-<style>
+<style lang="scss">
+@import "src/assets/variables.scss";
+
+
+.tf-sign-container {
+  position: relative;
+  height: 100%;
+  background-color: $tf-color-blue1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tf-sign-code-image {
+  width: 600px;
+  min-height: 640px;
+  background-color: $tf-color-white;
+  border-radius: 8px;
+  box-shadow: 8px 8px 16px $tf-color-grey2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .tf-sign-code-outer-size {
+    width: 360px;
+    height: 360px;
+  }
+
+  .tf-sign-code-inner-size {
+    width: 96px;
+    height: 96px;
+  }
+}
 
 </style>

@@ -41,6 +41,7 @@ export default class Welcome extends Vue{
 </script>
 
 <style lang="scss">
+
 .tf-welcome-container {
   height: 100%;
   display: flex;

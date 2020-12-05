@@ -16,18 +16,18 @@ export default {
       {
         pagePath: 'pages/activity/activity',
         text: '',
-        iconPath: 'assets/activity.png',
-        selectedIconPath: 'assets/activity_selected.png'
+        iconPath: 'assets/images/activity.png',
+        selectedIconPath: 'assets/images/activity_selected.png'
       }, {
         pagePath: 'pages/sign/sign',
         text: '',
-        iconPath: 'assets/sign.png',
-        selectedIconPath: 'assets/sign_selected.png'
+        iconPath: 'assets/images/sign.png',
+        selectedIconPath: 'assets/images/sign_selected.png'
       }, {
         pagePath: 'pages/mine/mine',
         text: '',
-        iconPath: 'assets/mine.png',
-        selectedIconPath: 'assets/mine_selected.png'
+        iconPath: 'assets/images/mine.png',
+        selectedIconPath: 'assets/images/mine_selected.png'
       }
     ]
   },

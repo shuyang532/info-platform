@@ -146,21 +146,19 @@ export default class Register extends Vue {
 </script>
 
 <style lang="scss">
-$tf-color-bg-grey: #f5f5f5;
-$tf-color-bg-white: #ffffff;
-$tf-color-primary: #6190E8;
-$tf-color-warning: #E93B3D;
+@import "src/assets/variables.scss";
+
 
 .tf-register-container {
   height: 100%;
-  background-color: $tf-color-bg-grey;
+  background-color: $tf-color-grey1;
 }
 
 .tf-register-main-part {
   padding: 32px 48px;
 
   .tf-register-card {
-    background-color: $tf-color-bg-white;
+    background-color: $tf-color-white;
     padding: 80px 24px;
     margin-bottom: 48px;
 
@@ -179,7 +177,7 @@ $tf-color-warning: #E93B3D;
     .tf-register-first-input {
       margin: 48px 0;
       padding: 16px 32px;
-      background-color: $tf-color-bg-grey;
+      background-color: $tf-color-grey1;
 
       .tf-register-code-button {
         font-size: 24px;
