@@ -1,61 +1,66 @@
 <template>
-  <view class="tf-join-container">
+  <view class="tf-activity-container">
 
     <AtSearchBar
       placeholder="搜索"
       show-action-button
       :value="searchTerm"
       :on-change="handleInputSearch"
-      :on-action-click="onActionClick"
+      :on-action-click="onSearchClick"
     />
 
-    <view class="tf-join-select-part">
+    <view class="tf-activity-select-part">
 
-      <view class="tf-join-select-options">
+      <view class="tf-activity-select-options">
 
-        <view class="tf-join-select-option">
-          <view class="tf-join-select-option-text">时间</view>
-          <view v-if="!showSelectedDate" @tap="showSelectedDate = true" class="tf-join-select-option-icon">
+        <view class="tf-activity-select-option">
+          <view class="tf-activity-select-option-text">时间</view>
+          <view v-if="!showSelectedDate" @tap="onShowSelectDate" class="tf-activity-select-option-icon">
             <AtIcon value="chevron-right" size="16" color="#6190E8"></AtIcon>
           </view>
-          <view v-else @tap="showSelectedDate = false" class="tf-join-select-option-icon">
+          <view v-else @tap="showSelectedDate = false" class="tf-activity-select-option-icon">
             <AtIcon value="chevron-down" size="16" color="#6190E8"></AtIcon>
           </view>
         </view>
 
-        <view class="tf-join-select-option">
-          <view class="tf-join-select-option-text">活动类型</view>
-          <view v-if="!showSelectedTags" @tap="showSelectedTags = true" class="tf-join-select-option-icon">
+        <view class="tf-activity-select-option">
+          <view class="tf-activity-select-option-text">活动类型</view>
+          <view v-if="!showSelectedTags" @tap="onShowSelectTags" class="tf-activity-select-option-icon">
             <AtIcon value="chevron-right" size="16" color="#6190E8"></AtIcon>
           </view>
-          <view v-else @tap="showSelectedTags = false" class="tf-join-select-option-icon">
+          <view v-else @tap="showSelectedTags = false" class="tf-activity-select-option-icon">
             <AtIcon value="chevron-down" size="16" color="#6190E8"></AtIcon>
           </view>
         </view>
 
       </view>
 
-      <AtCalendar :on-day-click="onSelectDate" v-if="showSelectedDate" class="tf-join-select-calender"/>
+      <AtCalendar :on-day-click="onSelectDate" v-if="showSelectedDate" class="tf-activity-select-calender"/>
 
-      <view v-if="showSelectedTags" class="tf-join-select-scope">
-        <view v-for="tag in tags" class="tf-join-select-scope-item">
-          <AtTag :name="tag.name" circle :active="tag.active" :on-click="onSelectTags">{{ tag.title }}</AtTag>
+      <view v-if="showSelectedTags" class="tf-activity-select-scope">
+        <view v-for="tag in tags" class="tf-activity-select-scope-item">
+          <AtTag :name="tag.typeId" circle :active="tag.active" :on-click="onSelectTags">{{ tag.name }}</AtTag>
         </view>
       </view>
 
     </view>
 
-    <view class="tf-join-list">
+    <view class="tf-activity-list">
 
-      <view v-for="activity in activities" class="tf-join-list-item">
-        <image :src="activity.coverUrl" mode="scaleToFill" class="tf-join-list-item-image"></image>
-        <view class="tf-join-list-item-icon-part" @tap="onViewDetail(activity)">
-          <AtIcon value="chevron-right" size="32" class="tf-join-list-item-icon"></AtIcon>
+      <view v-for="activity in activities" class="tf-activity-list-item">
+        <image :src="activity.coverUrl" mode="scaleToFill" class="tf-activity-list-item-image"></image>
+        <view class="tf-activity-list-item-icon-part" @tap="onViewDetail(activity)">
+          <AtIcon value="chevron-right" size="32" class="tf-activity-list-item-icon"></AtIcon>
         </view>
       </view>
 
     </view>
 
+    <!--  TODO 分页
+        <view class="tf-activity-pagination">
+          <AtPagination :total="pages" :page-size="pageItems" :current="currentPage"/>
+        </view>
+    -->
 
   </view>
 </template>
@@ -65,107 +70,126 @@ import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
 import {APP_ROUTES} from "../../base/constant";
 import {ActivityModel} from "../../models/activity.model";
+import {getActivity, getActivityTypes} from "../../base/servers/servers";
+import {Base} from "../../base/base";
+import {TagModel} from "../../models/tag.model";
 
 @Component({
-  name: 'Activity',
+  name: 'Join',
 })
-export default class Activity extends Vue {
+export default class Join extends Vue {
+  base: Base = Base.getInstance();
+  // 搜索框
   searchTerm: string = '';
-
+  // 日期筛选
   showSelectedDate: boolean = false;
   selectedDate: string = '';
-
+  // 标签筛选()
   showSelectedTags: boolean = false;
-  selectedTags: any [] = [];
-  tags: any[] = [
-    {
-      id: 0,
-      name: "tag1",
-      title: "标签",
-      active: false
-    },
-    {
-      id: 1,
-      name: "tag2",
-      title: "标签",
-      active: true
-    },
-    {
-      id: 2,
-      name: "tag3",
-      title: "标签",
-      active: false
-    },
-    {
-      id: 3,
-      name: "tag4",
-      title: "标签",
-      active: true
-    },
-    {
-      id: 4,
-      name: "tag5",
-      title: "标签",
-      active: false
-    },
-    {
-      id: 5,
-      name: "tag6",
-      title: "标签",
-      active: false
-    },
-    {
-      id: 6,
-      name: "tag7",
-      title: "标签",
-      active: false
-    }
-  ];
-
+  selectedTagId: string = '';
+  // 标签列表
+  tags: TagModel[] = [];
+  // 活动列表
   activities: ActivityModel[] = [];
-  userId: string = '';
+  // 分页相关
+  currentPage: number = 0;
+  pageItems: number = 20;
+  pages: number = 5;
 
-  created() {
-    if (Taro.getCurrentInstance().router.params.id) {
-      this.userId= Taro.getCurrentInstance().router.params.id;
-      Taro.setStorageSync({
-        key: 'userId',
-        value: this.userId
-      });
-    } else {
-      this.userId = Taro.getStorageSync({key: 'userId'});
-    }
-    console.log(this.userId);
-  }
-
+  // TODO 我参与的活动列表页，基本未完成，代码目前与activity页面相同
   mounted() {
-    const am = new ActivityModel();
-    am.mock();
-    for(let i = 0; i<=9; i++) {
-      this.activities.push(am);
-    }
+    this.getActivities();
+    this.getTypes();
   }
 
+  // 获取活动类型列表
+  getTypes() {
+    getActivityTypes().then((res: any) => {
+      if (res.success) {
+        this.base.showToast("活动类型列表获取成功");
+        this.tags = res.data.map((item: any) => {
+          const tag =  new TagModel();
+          tag.engrave(item);
+          return tag;
+        });
+      } else {
+        this.base.showToast("活动类型列表获取失败");
+      }
+    }).catch((err: any) => {
+      console.log(err);
+    });
+  }
+
+  // 获取所有的活动列表（可能有分页处理）
+  getActivities() {
+    getActivity("all", this.currentPage, this.pageItems).then((res: any) => {
+      if (res.success) {
+        this.base.showToast("活动列表获取成功");
+        this.activities = res.data.activities.map((item: any) => {
+          const am =  new ActivityModel();
+          am.engrave(item);
+          return am;
+        });
+        this.pages = res.data.pages;
+      } else {
+        this.base.showToast("活动列表获取失败");
+      }
+    }).catch((err: any) => {
+      console.log(err);
+    });
+  }
+
+  // 获取搜索+筛选后的活动列表
+  getFilterActivities() {
+    getActivity("filter", this.currentPage, this.pageItems, this.searchTerm, this.selectedDate, this.selectedTagId).then((res: any) => {
+      if (res.success) {
+        this.base.showToast("获取搜索+筛选后的活动列表成功");
+        this.activities = res.data.activities.map((item: any) => {
+          const am =  new ActivityModel();
+          am.engrave(item);
+          return am;
+        });
+        this.pages = res.data.pages;
+      } else {
+        this.base.showToast("获取搜索+筛选后的活动列表失败");
+      }
+    }).catch((err: any) => {
+      console.log(err);
+    });
+  }
 
   handleInputSearch(val: string) {
     this.searchTerm = val;
   }
 
+  onShowSelectDate() {
+    this.showSelectedTags = false;
+    this.showSelectedDate = true;
+  }
+
   onSelectDate(val: string) {
-    console.log(val);
+    this.selectedDate = val;
+    this.getFilterActivities();
+  }
+
+  onShowSelectTags(){
+    this.showSelectedDate = false;
+    this.showSelectedTags = true;
   }
 
   onSelectTags(val: any) {
-    console.log(val);
+    for (const tag of this.tags) {
+      tag.active = tag.typeId === val.name;
+    }
+    this.selectedTagId = val.name;
+    this.getFilterActivities();
   }
 
-  onActionClick() {
-    console.log('点击了搜索按钮')
+  onSearchClick() {
+    this.getFilterActivities();
   }
 
   onViewDetail(activity: any) {
-    console.log("点击进入详情页");
-    console.log(activity);
     Taro.navigateTo({
       url: APP_ROUTES.DETAIL+'?id='+activity.id
     })
@@ -176,64 +200,63 @@ export default class Activity extends Vue {
 <style lang="scss">
 @import "src/assets/variables.scss";
 
-
-.tf-join-container {
+.tf-activity-container {
   display: flex;
   flex-direction: column;
 }
 
-.tf-join-select-part {
+.tf-activity-select-part {
   background-color: $tf-color-grey2;
   padding: 16px 0;
 
-  .tf-join-select-options {
+  .tf-activity-select-options {
     display: flex;
     align-items: center;
     background-color: $tf-color-white;
 
-    .tf-join-select-option {
+    .tf-activity-select-option {
       display: flex;
       align-items: center;
       padding: 16px 24px;
     }
 
-    .tf-join-select-option-text {
+    .tf-activity-select-option-text {
       font-size: 32px;
       color: $tf-color-grey3;
     }
 
-    .tf-join-select-option-icon {
+    .tf-activity-select-option-icon {
       display: flex;
       margin-left: 8px;
     }
   }
 
-  .tf-join-select-calender {
+  .tf-activity-select-calender {
     background-color: $tf-color-white;
     border-top: 2px #f8f8f8 solid;
   }
 
-  .tf-join-select-scope {
+  .tf-activity-select-scope {
     background-color: $tf-color-white;
     border-top: 2px $tf-color-grey2 solid;
     padding: 32px;
     display: flex;
     flex-wrap: wrap;
 
-    .tf-join-select-scope-item {
+    .tf-activity-select-scope-item {
       padding: 4px 8px;
     }
   }
 }
 
-.tf-join-list {
+.tf-activity-list {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: $tf-color-grey2;
 
-  .tf-join-list-item {
+  .tf-activity-list-item {
     width: 90%;
     height: 400px;
     border-radius: 12px;
@@ -244,19 +267,19 @@ export default class Activity extends Vue {
     justify-content: flex-end;
     margin: 32px 0;
 
-    .tf-join-list-item-image {
+    .tf-activity-list-item-image {
       width: 100%;
       height: 100%;
       border-radius: 12px;
       position: absolute;
     }
 
-    .tf-join-list-item-icon-part {
+    .tf-activity-list-item-icon-part {
       position: absolute;
       z-index: 99;
       padding-right: 32px;
 
-      .tf-join-list-item-icon {
+      .tf-activity-list-item-icon {
         background-color: $tf-color-primary;
         color: $tf-color-white;
         padding: 8px;
@@ -264,6 +287,10 @@ export default class Activity extends Vue {
       }
     }
   }
+}
+
+.tf-activity-pagination {
+  padding: 24px 0 36px;
 }
 
 

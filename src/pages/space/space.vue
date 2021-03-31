@@ -3,13 +3,15 @@
 
     <view class="tf-space-info">
       <view class="tf-space-avatar">
-        <AtAvatar circle :image="user.avatarUrl" class="tf-space-avatar-size"></AtAvatar>
+        <AtAvatar circle :open-data="{type: 'userAvatarUrl'}" class="tf-space-avatar-size"></AtAvatar>
       </view>
 
       <view class="tf-space-list">
         <view class="tf-space-list-item">
           <view class="tf-space-list-item-title">昵称</view>
-          <view class="tf-space-list-item-content">{{ user.nickname }}</view>
+          <view class="tf-space-list-item-content">
+            <open-data type="userNickName"></open-data>
+          </view>
         </view>
         <view class="tf-space-list-item">
           <view class="tf-space-list-item-title">姓名</view>
@@ -63,15 +65,19 @@ import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
 import {APP_ROUTES} from "../../base/constant";
 import {UserModel} from "../../models/user.model";
+import {postFeedback} from "../../base/servers/servers";
+import {Base} from "../../base/base";
 
 @Component({
   name: 'Space'
 })
 export default class Space extends Vue{
+  base: Base = Base.getInstance();
+
   user: UserModel = new UserModel();
+
   showHint: boolean = false;
   showAppeal: boolean = false;
-
   appealContext: string = '';
 
 
@@ -85,12 +91,10 @@ export default class Space extends Vue{
   }
 
   onHideHint() {
-    console.log('隐藏申诉提示');
     this.showHint = false;
   }
 
   onShowAppeal() {
-    console.log('展示申诉框');
     this.showHint = false;
     this.showAppeal = true;
     this.appealContext = '';
@@ -101,13 +105,17 @@ export default class Space extends Vue{
   }
 
   cancelAppeal() {
-    console.log('取消申诉');
     this.showAppeal = false;
   }
 
   confirmAppeal() {
-    console.log('提交申诉');
-    console.log(this.appealContext);
+    postFeedback(this.appealContext).then((res: any) => {
+      if (res.success) {
+        this.base.showToast("申诉提交成功");
+      } else {
+        this.base.showToast("申诉提交失败");
+      }
+    })
     this.showAppeal = false;
   }
 

@@ -1,5 +1,6 @@
 const getBaseUrl = () => {
   let BASE_URL: string;
+  // TODO
   if (process.env.NODE_ENV === 'development') {
     BASE_URL = 'http://mock-api.com/7gPY2Pnl.mock';
   } else {

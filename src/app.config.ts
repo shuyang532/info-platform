@@ -1,15 +1,15 @@
 export default {
   pages: [
-    'pages/index/index',
-    'pages/welcome/welcome',
-    'pages/register/register',
-    'pages/activity/activity',
-    'pages/detail/detail',
-    'pages/sign/sign',
-    'pages/mine/mine',
-    'pages/space/space',
-    'pages/join/join',
-    'pages/feedback/feedback'
+    'pages/index/index', // 默认页
+    'pages/register/register', // 注册页
+    'pages/welcome/welcome', // 欢迎页
+    'pages/activity/activity', // 活动列表页
+    'pages/detail/detail', // 活动详情页
+    'pages/sign/sign', // 签到页
+    'pages/mine/mine', // 我的页
+    'pages/space/space', // 个人主页
+    'pages/join/join', // 我参与的活动列表页面
+    'pages/feedback/feedback' // 意见反馈页
   ],
   tabBar: {
     list: [

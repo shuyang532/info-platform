@@ -25,7 +25,8 @@ import {APP_ROUTES} from "../../base/constant";
 })
 export default class Welcome extends Vue{
 
-  imgUrl: string = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605983591981&di=b075a1308a8228ac2e016f0b04c44e63&imgtype=0&src=http%3A%2F%2Fp6.itc.cn%2Fmpbp%2Fpro%2F20200927%2Ffc5dd7d801304fdb83b9f37c07ae97ae.jpeg"
+  // TODO 首图需和UI讨论更换
+  imgUrl: string = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpz44eEk-QoxmEXHjiiHk7eJP5F_5d8r-S7A&usqp=CAU";
 
   toActivity() {
     Taro.switchTab({
@@ -34,7 +35,7 @@ export default class Welcome extends Vue{
   }
 
   toExit() {
-
+    // TODO
   }
 }
 

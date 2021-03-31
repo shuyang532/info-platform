@@ -6,7 +6,7 @@
       show-action-button
       :value="searchTerm"
       :on-change="handleInputSearch"
-      :on-action-click="onActionClick"
+      :on-action-click="onSearchClick"
     />
 
     <view class="tf-activity-select-part">
@@ -15,7 +15,7 @@
 
         <view class="tf-activity-select-option">
           <view class="tf-activity-select-option-text">时间</view>
-          <view v-if="!showSelectedDate" @tap="showSelectedDate = true" class="tf-activity-select-option-icon">
+          <view v-if="!showSelectedDate" @tap="onShowSelectDate" class="tf-activity-select-option-icon">
             <AtIcon value="chevron-right" size="16" color="#6190E8"></AtIcon>
           </view>
           <view v-else @tap="showSelectedDate = false" class="tf-activity-select-option-icon">
@@ -25,7 +25,7 @@
 
         <view class="tf-activity-select-option">
           <view class="tf-activity-select-option-text">活动类型</view>
-          <view v-if="!showSelectedTags" @tap="showSelectedTags = true" class="tf-activity-select-option-icon">
+          <view v-if="!showSelectedTags" @tap="onShowSelectTags" class="tf-activity-select-option-icon">
             <AtIcon value="chevron-right" size="16" color="#6190E8"></AtIcon>
           </view>
           <view v-else @tap="showSelectedTags = false" class="tf-activity-select-option-icon">
@@ -39,7 +39,7 @@
 
       <view v-if="showSelectedTags" class="tf-activity-select-scope">
         <view v-for="tag in tags" class="tf-activity-select-scope-item">
-          <AtTag :name="tag.name" circle :active="tag.active" :on-click="onSelectTags">{{ tag.title }}</AtTag>
+          <AtTag :name="tag.typeId" circle :active="tag.active" :on-click="onSelectTags">{{ tag.name }}</AtTag>
         </view>
       </view>
 
@@ -56,6 +56,11 @@
 
     </view>
 
+<!--  TODO 分页
+    <view class="tf-activity-pagination">
+      <AtPagination :total="pages" :page-size="pageItems" :current="currentPage"/>
+    </view>
+-->
 
   </view>
 </template>
@@ -65,93 +70,125 @@ import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
 import {APP_ROUTES} from "../../base/constant";
 import {ActivityModel} from "../../models/activity.model";
+import {getActivity, getActivityTypes} from "../../base/servers/servers";
+import {Base} from "../../base/base";
+import {TagModel} from "../../models/tag.model";
 
 @Component({
   name: 'Activity',
 })
 export default class Activity extends Vue {
+  base: Base = Base.getInstance();
+  // 搜索框
   searchTerm: string = '';
-
+  // 日期筛选
   showSelectedDate: boolean = false;
   selectedDate: string = '';
-
+  // 标签筛选()
   showSelectedTags: boolean = false;
-  selectedTags: any [] = [];
-  tags: any[] = [
-    {
-      id: 0,
-      name: "tag1",
-      title: "标签",
-      active: false
-    },
-    {
-      id: 1,
-      name: "tag2",
-      title: "标签",
-      active: true
-    },
-    {
-      id: 2,
-      name: "tag3",
-      title: "标签",
-      active: false
-    },
-    {
-      id: 3,
-      name: "tag4",
-      title: "标签",
-      active: true
-    },
-    {
-      id: 4,
-      name: "tag5",
-      title: "标签",
-      active: false
-    },
-    {
-      id: 5,
-      name: "tag6",
-      title: "标签",
-      active: false
-    },
-    {
-      id: 6,
-      name: "tag7",
-      title: "标签",
-      active: false
-    }
-  ];
-
+  selectedTagId: string = '';
+  // 标签列表
+  tags: TagModel[] = [];
+  // 活动列表
   activities: ActivityModel[] = [];
+  // 分页相关
+  currentPage: number = 0;
+  pageItems: number = 20;
+  pages: number = 5;
 
   mounted() {
-    const am = new ActivityModel();
-    am.mock();
-    for(let i = 0; i<=9; i++) {
-      this.activities.push(am);
-    }
+    this.getActivities();
+    this.getTypes();
   }
 
+  // 获取活动类型列表
+  getTypes() {
+    getActivityTypes().then((res: any) => {
+      if (res.success) {
+        this.base.showToast("活动类型列表获取成功");
+        this.tags = res.data.map((item: any) => {
+          const tag =  new TagModel();
+          tag.engrave(item);
+          return tag;
+        });
+      } else {
+        this.base.showToast("活动类型列表获取失败");
+      }
+    }).catch((err: any) => {
+      console.log(err);
+    });
+  }
+
+  // 获取所有的活动列表（可能有分页处理）
+  getActivities() {
+    getActivity("all", this.currentPage, this.pageItems).then((res: any) => {
+      if (res.success) {
+        this.base.showToast("活动列表获取成功");
+        this.activities = res.data.activities.map((item: any) => {
+          const am =  new ActivityModel();
+          am.engrave(item);
+          return am;
+        });
+        this.pages = res.data.pages;
+      } else {
+        this.base.showToast("活动列表获取失败");
+      }
+    }).catch((err: any) => {
+      console.log(err);
+    });
+  }
+
+  // 获取搜索+筛选后的活动列表
+  getFilterActivities() {
+    getActivity("filter", this.currentPage, this.pageItems, this.searchTerm, this.selectedDate, this.selectedTagId).then((res: any) => {
+      if (res.success) {
+        this.base.showToast("获取搜索+筛选后的活动列表成功");
+        this.activities = res.data.activities.map((item: any) => {
+          const am =  new ActivityModel();
+          am.engrave(item);
+          return am;
+        });
+        this.pages = res.data.pages;
+      } else {
+        this.base.showToast("获取搜索+筛选后的活动列表失败");
+      }
+    }).catch((err: any) => {
+      console.log(err);
+    });
+  }
 
   handleInputSearch(val: string) {
     this.searchTerm = val;
   }
 
+  onShowSelectDate() {
+    this.showSelectedTags = false;
+    this.showSelectedDate = true;
+  }
+
   onSelectDate(val: string) {
-    console.log(val);
+    this.selectedDate = val;
+    this.getFilterActivities();
+  }
+
+  onShowSelectTags(){
+    this.showSelectedDate = false;
+    this.showSelectedTags = true;
   }
 
   onSelectTags(val: any) {
-    console.log(val);
+    for (const tag of this.tags) {
+      tag.active = tag.typeId === val.name;
+    }
+    this.selectedTagId = val.name;
+    this.getFilterActivities();
   }
 
-  onActionClick() {
-    console.log('点击了搜索按钮')
+  onSearchClick() {
+    this.getFilterActivities();
   }
 
   onViewDetail(activity: any) {
-    console.log("点击进入详情页");
-    console.log(activity);
     Taro.navigateTo({
       url: APP_ROUTES.DETAIL+'?id='+activity.id
     })
@@ -249,6 +286,10 @@ export default class Activity extends Vue {
       }
     }
   }
+}
+
+.tf-activity-pagination {
+  padding: 24px 0 36px;
 }
 
 

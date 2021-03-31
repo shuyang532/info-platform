@@ -61,42 +61,15 @@ export class ActivityModel {
     this.top = t.top;
     this.join = t.join;
     this.create = t.create;
-
-    switch (t.status) {
-      case ACTIVITY_STATUS.SIGN_UP:
-        this.status = ACTIVITY_STATUS.SIGN_UP;
-        break;
-      case ACTIVITY_STATUS.SIGN_UP_END:
-        this.status = ACTIVITY_STATUS.SIGN_UP_END;
-        break;
-      case ACTIVITY_STATUS.FINISH:
-        this.status = ACTIVITY_STATUS.FINISH;
-        break;
-      default:
-        break;
-    }
+    this.status = t.status;
   }
 
-  public mock() {
-    this.id = 'qwe123';
-    this.coverUrl = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605983591981&di=b075a1308a8228ac2e016f0b04c44e63&imgtype=0&src=http%3A%2F%2Fp6.itc.cn%2Fmpbp%2Fpro%2F20200927%2Ffc5dd7d801304fdb83b9f37c07ae97ae.jpeg';
-    this.name = '天文社观星活动';
-    this.startTime = '2020-11-25 08:00';
-    this.endTime = '2020-11-25 24:00';
-    this.place = '南京市紫金山天文台';
-    this.deadline = '2020-11-20 24:00';
-    this.limitOfPeople = 50;
-    this.numberOfPeople = 45;
-    this.description = '无内容';
-    this.status = ACTIVITY_STATUS.SIGN_UP;
+  public isJoinOn(): boolean {
+    return this.status === ACTIVITY_STATUS.JOIN_ON;
   }
 
-  public isSignUp(): boolean {
-    return this.status === ACTIVITY_STATUS.SIGN_UP;
-  }
-
-  public isSignUpEnd(): boolean {
-    return this.status === ACTIVITY_STATUS.SIGN_UP_END;
+  public isJoinEnd(): boolean {
+    return this.status === ACTIVITY_STATUS.JOIN_END;
   }
 
   public isFinish(): boolean {

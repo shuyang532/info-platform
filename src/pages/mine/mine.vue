@@ -3,8 +3,10 @@
 
     <view class="tf-mine-info">
       <view class="tf-mine-avatar">
-        <AtAvatar circle :image="user.avatarUrl" class="tf-mine-avatar-size"></AtAvatar>
-        <view class="tf-mine-nickname">{{ user.nickname }}</view>
+        <AtAvatar circle :open-data="{type: 'userAvatarUrl'}" class="tf-mine-avatar-size"></AtAvatar>
+        <view class="tf-mine-nickname">
+          <open-data type="userNickName"></open-data>
+        </view>
       </view>
       <view class="tf-mine-guide">
         <view class="tf-mine-guide-text">个人主页</view>
@@ -37,34 +39,26 @@
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
 import {APP_ROUTES} from "../../base/constant";
-import {UserModel} from "../../models/user.model";
+import {Base} from "../../base/base";
 
 @Component({
   name: 'Mine'
 })
 export default class Mine extends Vue{
-  user: UserModel = new UserModel();
-
-  mounted() {
-    this.user.mock();
-  }
 
   toSpace() {
-    console.log('去个人主页');
     Taro.navigateTo({
       url: APP_ROUTES.SPACE
     });
   }
 
   toJoin() {
-    console.log('去我参与的');
     Taro.navigateTo({
       url: APP_ROUTES.JOIN+'?id='+this.user.id
     });
   }
 
   toFeedback() {
-    console.log('去意见反馈');
     Taro.navigateTo({
       url: APP_ROUTES.FEEDBACK
     });

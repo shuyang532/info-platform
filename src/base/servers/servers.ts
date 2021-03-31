@@ -15,7 +15,6 @@ export const postValidateCode = (studentNumber: string) => {
   return HttpRequest.post('/data/user/validate-code', { studentNumber });
 }
 
-
 // 修改昵称
 export const postNickname = (nickname: string) => {
   return HttpRequest.post('/data/user/nickname', { nickname });
@@ -70,27 +69,38 @@ export const postActivity = (
 }
 
 // 获取活动列表(包含搜索、筛选、详情、我参与的、我创建的)
+// option: all, filter, detail, relatedPeople
 export const getActivity = (
+  option: string,
   currentPage: number,
   pageItems: number,
-  order?: string,
   name?: string,
   timeOption?: string,
   typeId?: string,
-  activityId?: string,
   userId?: string,
-  relation?: string
+  relation?: string,
+  order?: string,
 ) => {
   return HttpRequest.get('/data/activity', {
+    option,
     currentPage,
     pageItems,
     order,
     name,
     timeOption,
     typeId,
-    activityId,
     userId,
     relation
+  });
+}
+
+// 获取活动详情
+export const getActivityDetail = (
+  activityId: string
+) => {
+  return HttpRequest.get('/data/activity', {
+    option: "detail",
+    activityId
   });
 }
 

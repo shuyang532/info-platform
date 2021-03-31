@@ -13,8 +13,10 @@
   - 部分本地配置，在project.config.json文件中，记得更换appid
 - baseUrl
   - 后端域名，目前使用的mock域名，在微信开发者工具中调试时需在本地设置中勾选"不校验合法域名"
-  - 因为微信对服务器的安全性要求很高，所以后端提供的IP或URL需在相应微信小程序的主页进行备案处理
+  - 因为微信对服务器的安全性要求很高，所以后端提供的IP或URL需在相应微信小程序的主页进行备案处理，参考https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html
   - 本地配置，在src/base/servers/baseUrl.ts中设置
+- 项目中可能需要更改或补充的地方做了TODO处理
+- 小程序基础配置，在src/app.config.ts文件中
 
 ### 环境与开发工具支持
 

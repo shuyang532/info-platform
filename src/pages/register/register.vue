@@ -74,12 +74,15 @@
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
 import {APP_ROUTES} from "../../base/constant";
+import {Base} from "../../base/base";
+import {getLogin, postRegister, postValidateCode} from "../../base/servers/servers";
 
 @Component({
   name: "Register"
 })
 
 export default class Register extends Vue {
+  base: Base = Base.getInstance();
   studentNumber: string = '';
   verificationCode: string = '';
   openAuthorize: boolean = false;
@@ -91,8 +94,8 @@ export default class Register extends Vue {
     const _this = this;
     Taro.getSetting({
       success: (res: any) => {
+        // 是否微信授权允许使用我的信息，不允许，true打开授权窗口
         if (!res.authSetting["scope.userInfo"]) {
-          console.log('dd');
           _this.openAuthorize = true;
         }
       }
@@ -100,14 +103,25 @@ export default class Register extends Vue {
   }
 
   onRegister() {
-    console.log('注册');
-    Taro.redirectTo({
+    postRegister(this.studentNumber, this.verificationCode).then((res: any) => {
+      if (res.success) {
+        this.toWelcome();
+      } else {
+        this.base.showToast("注册失败");
+      }
+    }).catch((err: any) => {
+      console.log(err);
+    });
+  }
+
+  toWelcome() {
+    Taro.navigateTo({
       url: APP_ROUTES.WELCOME
-    })
+    });
   }
 
   bindGetUserInfo(e: any) {
-    console.log(e);
+    // console.log(e);
     this.openAuthorize = false;
   }
 
@@ -124,11 +138,18 @@ export default class Register extends Vue {
   }
 
   sentVerificationCode() {
-    console.log('发送验证码')
-    this.verificationCodeHint = "已发送至学邮";
-    this.remainedTime = 60;
-    this.countdownTime();
-    console.log('结束倒计时')
+    postValidateCode(this.studentNumber).then((res: any) => {
+      if (res.success) {
+        this.base.showToast("验证码已发送");
+        this.verificationCodeHint = "已发送至学邮";
+        this.remainedTime = 60;
+        this.countdownTime();
+      } else {
+        this.base.showToast("验证码发送失败");
+      }
+    }).catch((err: any) => {
+      console.log(err);
+    });
   }
 
   countdownTime() {

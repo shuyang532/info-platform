@@ -19,6 +19,12 @@ import {Vue, Component} from 'vue-property-decorator';
 })
 export default class Sign extends Vue{
 
+  // TODO 签到页功能无
+  mounted() {
+
+  }
+
+
   onRefreshQR() {
     console.log('刷新二维码');
   }

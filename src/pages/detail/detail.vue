@@ -37,11 +37,11 @@
       </view>
 
       <view class="tf-detail-btn-part">
-        <AtButton type="primary" :on-click="onJoinActivity" class="tf-detail-btn" v-if="activity.isSignUp() && !activity.join && !activity.isFull() ">报名</AtButton>
-        <AtButton type="primary" :on-click="onJoinActivity" class="tf-detail-btn" disabled v-if="activity.isSignUp && !activity.join && activity.isFull()">人数已满</AtButton>
-        <AtButton :on-click="onUnJoinActivity" class="tf-detail-info-btn" v-if="activity.isSignUp() && activity.join">取消报名</AtButton>
-        <AtButton type="primary" :on-click="onJoinActivity" class="tf-detail-btn" disabled v-if="activity.isSignUpEnd()">报名截止</AtButton>
-        <AtButton type="primary" :on-click="onJoinActivity" class="tf-detail-btn" disabled v-if="activity.isFinish()">活动已结束</AtButton>
+        <AtButton type="primary" :on-click="onJoinActivity" class="tf-detail-btn" v-if="activity.isJoinOn() && !activity.join && !activity.isFull() ">报名</AtButton>
+        <AtButton :on-click="onUnJoinActivity" class="tf-detail-info-btn" v-if="activity.isJoinOn() && activity.join">取消报名</AtButton>
+        <AtButton type="primary" class="tf-detail-btn" disabled v-if="activity.isJoinOn && !activity.join && activity.isFull()">人数已满</AtButton>
+        <AtButton type="primary" class="tf-detail-btn" disabled v-if="activity.isJoinEnd()">报名截止</AtButton>
+        <AtButton type="primary" class="tf-detail-btn" disabled v-if="activity.isFinish()">活动已结束</AtButton>
       </view>
 
     </view>
@@ -78,12 +78,15 @@
 import {Vue, Component} from 'vue-property-decorator';
 import Taro from '@tarojs/taro';
 import {ActivityModel} from "../../models/activity.model";
-import { getActivity } from "../../base/servers/servers";
+import {deleteJoin, getActivityDetail, postJoin} from "../../base/servers/servers";
+import {Base} from "../../base/base";
 
 @Component({
   name: 'Detail',
 })
 export default class Detail extends Vue {
+  base: Base = Base.getInstance();
+
   activityId: string = '';
   activity: ActivityModel = new ActivityModel();
 
@@ -92,7 +95,8 @@ export default class Detail extends Vue {
   joinFailureHint: boolean = false;
 
   created() {
-    /*if (Taro.getCurrentInstance().router.params.id) {
+    // 防刷新处理
+    if (Taro.getCurrentInstance().router.params.id) {
       this.activityId = Taro.getCurrentInstance().router.params.id;
       Taro.setStorageSync({
         key: 'activityId',
@@ -101,24 +105,30 @@ export default class Detail extends Vue {
     } else {
       this.activityId = Taro.getStorageSync({key: 'activityId'});
     }
-    console.log(this.activityId);*/
   }
 
   mounted() {
-    // this.getActivityDetail();
-    this.activity.mock();
+    this.getActivityDetail();
   }
 
   getActivityDetail() {
-    getActivity(0, 1, this.activityId).then((res: any) => {
+    getActivityDetail(this.activityId).then((res: any) => {
       if (res.success) {
-        this.activity.engrave(res.data);
+        this.activity.engrave(res.data.activities[0]);
+      } else {
+        this.base.showToast("活动详情获取失败");
       }
-    })
+    });
   }
 
   onJoinActivity() {
-    this.joinSuccessHint = true;
+    postJoin(this.activityId).then((res: any) => {
+      if (res.success) {
+        this.joinSuccessHint = true;
+      } else {
+        this.base.showToast("报名失败");
+      }
+    });
   }
 
   confirmJoinSuccess() {
@@ -127,7 +137,13 @@ export default class Detail extends Vue {
   }
 
   onUnJoinActivity() {
-    this.unJoinSuccessHint = true;
+    deleteJoin(this.activityId).then((res: any) => {
+      if (res.success) {
+        this.unJoinSuccessHint = true;
+      } else {
+        this.base.showToast("取消报名失败");
+      }
+    });
   }
 
   confirmUnJoinSuccess() {

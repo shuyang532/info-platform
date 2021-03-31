@@ -12,7 +12,7 @@ export const APP_ROUTES = {
 }
 
 export const ACTIVITY_STATUS = {
-  SIGN_UP: 'sign up', // 报名中
-  SIGN_UP_END: 'sign up end', // 报名截止
-  FINISH: 'finish' // 活动结束
+  JOIN_ON: 'join-ongoing', // 报名中
+  JOIN_END: 'join-end', // 报名截止
+  FINISH: 'activity-finish' // 活动结束
 }
