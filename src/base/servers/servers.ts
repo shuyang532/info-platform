@@ -15,11 +15,6 @@ export const postValidateCode = (studentNumber: string) => {
   return HttpRequest.post('/data/user/validate-code', { studentNumber });
 }
 
-// 修改昵称
-export const postNickname = (nickname: string) => {
-  return HttpRequest.post('/data/user/nickname', { nickname });
-}
-
 // 违规申诉
 export const postFeedback = (content: string) => {
   return HttpRequest.post('/data/user/feedback', { content });
@@ -35,41 +30,8 @@ export const getActivityScopes = () => {
   return HttpRequest.get('/data/activity/scope');
 }
 
-// 创建活动/修改活动
-export const postActivity = (
-  teamId: string,
-  name: string,
-  imageUrl: string,
-  startTime: string,
-  endTime: string,
-  place: string,
-  typeId: string,
-  limitOfPeople: number,
-  scopeId: string,
-  description: string,
-  deadline: string,
-  activityId?: string,
-  notify?: boolean
-) => {
-  return HttpRequest.post('/data/activity', {
-    teamId,
-    name,
-    imageUrl,
-    startTime,
-    endTime,
-    place,
-    typeId,
-    limitOfPeople,
-    scopeId,
-    description,
-    deadline,
-    activityId,
-    notify
-  });
-}
-
-// 获取活动列表(包含搜索、筛选、详情、我参与的、我创建的)
-// option: all, filter, detail, relatedPeople
+// 获取活动列表(包含搜索、筛选、我参与的、我创建的)
+// option: all, filter, relatedPeople
 export const getActivity = (
   option: string,
   currentPage: number,
@@ -98,8 +60,7 @@ export const getActivity = (
 export const getActivityDetail = (
   activityId: string
 ) => {
-  return HttpRequest.get('/data/activity', {
-    option: "detail",
+  return HttpRequest.get('/data/activity/detail', {
     activityId
   });
 }

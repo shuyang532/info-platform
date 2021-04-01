@@ -96,15 +96,15 @@ export default class Detail extends Vue {
 
   created() {
     // 防刷新处理
-    if (Taro.getCurrentInstance().router.params.id) {
-      this.activityId = Taro.getCurrentInstance().router.params.id;
-      Taro.setStorageSync({
-        key: 'activityId',
-        value: this.activityId
-      });
-    } else {
-      this.activityId = Taro.getStorageSync({key: 'activityId'});
-    }
+    // if (Taro.getCurrentInstance().router.params.id) {
+    //   this.activityId = Taro.getCurrentInstance().router.params.id;
+    //   Taro.setStorageSync({
+    //     key: 'activityId',
+    //     value: this.activityId
+    //   });
+    // } else {
+    //   this.activityId = Taro.getStorageSync({key: 'activityId'});
+    // }
   }
 
   mounted() {
